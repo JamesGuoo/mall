@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
             UserTokenDO userTokenDO = userTokenDORepo.findUserTokenDOByUserId(userDO.getUserId());
             //当前时间
             Date now = new Date();
-            //过期时间
+            //未来的过期时间
             Date expireTime = new Date(now.getTime() + 2 * 24 * 3600 * 1000); //过期时间48小时
             if (userTokenDO == null) {
                 userTokenDO = new UserTokenDO();
