@@ -1,5 +1,7 @@
 package io.james.mall.service;
 
+import io.james.mall.web.dto.UserUpdateDTO;
+
 public interface UserService {
 
     /**
@@ -24,4 +26,13 @@ public interface UserService {
      * @return
      */
     Boolean logout(Long userId);
+
+    /**
+     * 用户信息修改
+     * @param userUpdateDTO
+     * @param userId
+     * @return
+     */
+    Boolean updateUserInfo(UserUpdateDTO userUpdateDTO, Long userId);
+
 }

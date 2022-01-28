@@ -7,6 +7,8 @@ import io.james.mall.domain.UserTokenDORepo;
 import io.james.mall.service.UserService;
 import io.james.mall.util.PhoneUtil;
 import io.james.mall.util.SystemUtil;
+import io.james.mall.web.dto.UserUpdateDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -102,5 +104,24 @@ public class UserServiceImpl implements UserService {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean updateUserInfo(UserUpdateDTO userUpdateDTO, Long userId) {
+        UserDO userDO = userDORepo.findUserDOByUserId(userId);
+        if (userDO == null) {
+            return Boolean.FALSE;
+        }
+        userDO.setNickName(userUpdateDTO.getNickName());
+        //user.setPasswordMd5(mallUser.getPasswordMd5());
+        //若密码为空字符，则表明用户不打算修改密码，使用原密码保存
+        if (StringUtils.isNotBlank(userUpdateDTO.getPasswordMd5())) {
+            userDO.setPasswordMd5(userUpdateDTO.getPasswordMd5());
+        }
+        userDO.setIntroduceSign(userUpdateDTO.getIntroduceSign());
+        if (userDORepo.save(userDO) != null) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }

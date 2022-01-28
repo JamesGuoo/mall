@@ -8,6 +8,7 @@ import io.james.mall.service.UserService;
 import io.james.mall.util.PhoneUtil;
 import io.james.mall.web.dto.UserLoginDTO;
 import io.james.mall.web.dto.UserRegisterDTO;
+import io.james.mall.web.dto.UserUpdateDTO;
 import io.james.mall.web.vo.Result;
 import io.james.mall.web.vo.ResultGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +88,21 @@ public class UserAPI {
         }
         //登出失败
         return generator.genFailResult("LOGOUT_ERROR");
+    }
+
+    @PostMapping("/user/info")
+    public Result updateInfo(@RequestBody UserUpdateDTO userUpdateDTO, @TokenToUser UserDO userDO) {
+        Boolean flag = userService.updateUserInfo(userUpdateDTO, userDO.getUserId());
+        if (flag) {
+            // 返回成功
+            Result result = generator.genSuccessResult();
+            return result;
+        }
+        else {
+            // 返回失败
+            Result result = generator.genFailResult("修改失败");
+            return result;
+        }
     }
 
 }
